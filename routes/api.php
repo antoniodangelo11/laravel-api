@@ -19,4 +19,4 @@ use App\Http\Controllers\Api\ProjectController;
 //     return $request->user();
 // });
 
-Route::get('project', [ProjectController::class, 'index'])->name('api.project.index');
+Route::get('projects', [ProjectController::class, 'index'])->name('api.projects.index');
