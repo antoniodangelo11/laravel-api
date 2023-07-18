@@ -112,16 +112,15 @@
         </div>
 
         <div class="mb-3">
-            <label for="image" class="form-label">
-                Image
-            </label>
+            <label for="image" class="form-label">Image</label>
             <div class="input-group mb-3">
                 <input type="file" 
                 class="form-control @error('image') is-invalid @enderror" 
-                id="image" name="image" accept="image/*">
-                <label class="input-group-text" for="image">
-                    Upload
-                </label>
+                id="image" 
+                name="image" 
+                accept="image/*"
+            >
+                <label class="input-group-text" for="image">Upload</label>
             </div>
             <div class="invalid-feedback">
                 @error('image') 

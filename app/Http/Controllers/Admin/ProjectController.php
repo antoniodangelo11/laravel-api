@@ -26,14 +26,6 @@ class ProjectController extends Controller
         "type_id"          => "required|integer|exists:types,id",
     ];
 
-    private $validation_messages = [
-        'required'  => 'Il campo :attribute è obbligatorio',
-        'min'       => 'Il campo :attribute deve avere almeno :min caratteri',
-        // 'max'       => 'Il campo :attribute non può superare i :max caratteri',
-        'url'       => 'Il campo deve essere un url valido',
-        'exists'    => 'Valore non valido'
-    ];
-
     public function index()
     {
         $projects = Project::paginate(4);
@@ -52,11 +44,9 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate($this->validations, $this->validation_messages);
+        $request->validate($this->validations);
         $data = $request->all();
-
-        $imagePath = Storage::put('uploads', $data['image']);
-
+        
         // salvare i dati nel db
         $newProject = new Project();
         
@@ -67,7 +57,10 @@ class ProjectController extends Controller
         $newProject->author        = $data['author'];
         $newProject->collaborators = $data['collaborators'];
         $newProject->description   = $data['description'];
-        $newProject->image         = $imagePath;
+        if ($request->has('image')) {
+            $image = Storage::put('uploads', $data['image']);
+            $newProject->image     = $image;
+        }
         $newProject->link_github   = $data['link_github'];
         $newProject->type_id       = $data['type_id'];
 
@@ -104,12 +97,13 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)->firstOrFail();
 
         // validare i dati del form
-        $request->validate($this->validations, $this->validation_messages);
+        $request->validate($this->validations);
+        
         $data = $request->all();
 
-        if ($data['image']) {
+        if ($request->has('image')) {
             // salvo la nuova immagine
-            $imagePath = Storage::put('uploads', $data['image']);
+            $image = Storage::disk('public')->put('uploads', $data['image']);
 
             // elimino la vecchia immagine
             if ($project->image) {
@@ -117,7 +111,7 @@ class ProjectController extends Controller
             }
 
             // aggiorno l'indirizzo della nuova immagine
-            $project->image = $imagePath;
+            $project->image = $image;
         }
 
         // aggiornare i dati nel db
@@ -127,7 +121,6 @@ class ProjectController extends Controller
         $project->author        = $data['author'];
         $project->collaborators = $data['collaborators'];
         $project->description   = $data['description'];
-        $project->image         = $imagePath;
         $project->link_github   = $data['link_github'];
         $project->type_id       = $data['type_id'];
         
