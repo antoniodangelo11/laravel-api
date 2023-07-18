@@ -22,7 +22,7 @@ class ProjectController extends Controller
         "description"      => "nullable|string|max:2000",
         'image'            => 'nullable|image|max:1024',  
         "link_github"      => "required|string|url|max:150",
-        'technologies'     => 'nullable|array',
+        'technologies. *'  => 'integer|exists:technologies,id',
         "type_id"          => "required|integer|exists:types,id",
     ];
 

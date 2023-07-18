@@ -14,14 +14,6 @@ class TypeController extends Controller
         "description"     => "required|string|max:2000",
     ];
 
-    private $validation_messages = [
-        'required'  => 'Il campo :attribute è obbligatorio',
-        'min'       => 'Il campo :attribute deve avere almeno :min caratteri',
-        'max'       => 'Il campo :attribute non può superare i :max caratteri',
-        'url'       => 'Il campo deve essere un url valido',
-        'exists'    => 'Valore non valido'
-    ];
-
     public function index()
     {
         $types = Type::all();
@@ -36,7 +28,7 @@ class TypeController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate($this->validations, $this->validation_messages);
+        $request->validate($this->validations);
 
         $data = $request->all();
 
@@ -65,7 +57,7 @@ class TypeController extends Controller
     public function update(Request $request, Type $type)
     {
         // validare i dati del form
-        $request->validate($this->validations, $this->validation_messages);
+        $request->validate($this->validations);
 
         $data = $request->all();
 
