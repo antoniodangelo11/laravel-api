@@ -111,11 +111,22 @@
             @enderror
         </div>
 
-        <div class="input-group mb-3">
-            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image">
-            <label class="input-group-text" for="image">Upload</label>
+        <div class="mb-3">
+            <label for="image" class="form-label">
+                Image
+            </label>
+            <div class="input-group mb-3">
+                <input type="file" 
+                class="form-control @error('image') is-invalid @enderror" 
+                id="image" name="image" accept="image/*">
+                <label class="input-group-text" for="image">
+                    Upload
+                </label>
+            </div>
             <div class="invalid-feedback">
-                @error('image') {{ $message }} @enderror
+                @error('image') 
+                    {{ $message }} 
+                @enderror
             </div>
         </div>
         
@@ -132,7 +143,6 @@
                         @if (in_array($technology->id, old('technologies') ?: [])) checked @endif
                     >
                     <label class="form-check-label" for="technology{{ $technology->id }}">{{ $technology->name }}</label>
-
                 </div>
             @endforeach
 
