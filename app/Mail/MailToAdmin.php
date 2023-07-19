@@ -9,53 +9,37 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailToLead extends Mailable
+class MailToAdmin extends Mailable
 {
     use Queueable, SerializesModels;
 
-    // Per usare la mail
     public $lead;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
+
     public function __construct($_lead)
     {
         $this->lead = $_lead;
     }
 
-    /**
-     * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
-     */
+
     public function envelope()
     {
         return new Envelope(
-            replyTo: $this->lead->email,
-            subject: 'Richiesta di informazioni ricevuta' . $this->lead->name,
+
+            subject: 'Nuova richiesta da' . $this->lead->name,
+            replyTo: env('ADMIN_ADDRESS', 'admin@boolpress.com')
         );
     }
 
-    /**
-     * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
-     */
+
     public function content()
     {
         return new Content(
-            view: 'emails.mail-to-lead',
+            view: 'emails.mail-to-admin',
         );
     }
 
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array
-     */
+
     public function attachments()
     {
         return [];
