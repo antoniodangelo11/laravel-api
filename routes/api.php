@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\TypeController;
 use App\Http\Controllers\Api\ProjectController;
 
 /*
